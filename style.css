@@ -1,4 +1,33 @@
 /* Global Styles */
+<script>
+  // Make the whole project card clickable (mouse + keyboard)
+  document.querySelectorAll('.project-card').forEach(card => {
+    const url = card.getAttribute('data-href');
+    if (!url) return;
+
+    // Open on click
+    card.addEventListener('click', (e) => {
+      // If the click came from a real link inside the card, let it behave normally
+      const a = e.target.closest('a');
+      if (a) return;
+      window.open(url, '_blank', 'noopener');
+    });
+
+    // Keyboard accessibility (Enter/Space)
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.open(url, '_blank', 'noopener');
+      }
+    });
+
+    // Prevent the inner links from bubbling up to the card
+    card.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', e => e.stopPropagation());
+    });
+  });
+</script>
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -51,5 +80,16 @@ body {
     background-color: #333;
     color: #fff;
     margin-top: 40px;
-  }
+  }/* Make the whole card feel clickable */
+.project-card { cursor: pointer; position: relative; }
+.project-card:focus { outline: 3px solid #0078ff33; outline-offset: 2px; }
+
+/* Title row with icon */
+.project-header { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; }
+.project-icon {
+  width: 28px; height: 28px; border-radius: 6px; object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+.project-card h3 { margin: 0; }
+
   
