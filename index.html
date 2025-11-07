@@ -2,40 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Khanyisile Mashibini | Web Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khanyisile Mashibini | Web Developer Portfolio</title>
   <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <style>
+    /* ===== Base Styling ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
+    body {
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #222;
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #222;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+
+    /* ===== About Section ===== */
+    #about p {
+      margin-top: 1rem;
+    }
+
+    /* ===== Projects Section ===== */
+    #projects {
+      margin-top: 2rem;
+    }
+
+    .projects {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 760px) {
+      .projects {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .project-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      background: #fff;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .project-card h3 {
+      margin-bottom: 0.5rem;
+      color: #111;
+    }
+
+    .project-card p {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .project-card .links a {
+      text-decoration: none;
+      color: #0078ff;
+      font-weight: 500;
+    }
+
+    .project-card .links a:hover {
+      text-decoration: underline;
+    }
+
+    .project-card .stack {
+      margin-top: 0.5rem;
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0;
+    }
+
+    .project-card .stack li {
+      font-size: 0.85rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+    }
+
+    /* ===== Contact Section ===== */
+    #contact p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    #contact a {
+      color: #0078ff;
+      text-decoration: none;
+    }
+
+    #contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #999;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
   <header>
     <h1>Khanyisile Mashibini</h1>
     <p>Web Developer • Digital Creator • Problem Solver</p>
   </header>
 
-  <section class="about">
+  <!-- ===== About Me ===== -->
+  <section id="about">
     <h2>About Me</h2>
-    <p>I’m a self-taught developer and AI enthusiast with a background in media and content strategy. I build responsive websites and automation tools focused on real-world results.</p>
+    <p>
+      I’m a self-taught developer and AI enthusiast with a background in media and content strategy.
+      I build responsive websites, automation tools, and digital projects focused on real-world results.
+    </p>
   </section>
 
-  <section class="projects">
+  <!-- ===== Projects ===== -->
+  <section id="projects">
     <h2>Projects</h2>
-    <ul>
-      <li>To-Do List App</li>
-      <li>Chill Lounge Archive Website</li>
-      <li>AI Email Automation (Zapier + Google Drive)</li>
-    </ul>
+
+    <div class="projects">
+      <!-- Project 1 -->
+      <article class="project-card">
+        <h3>Chill Lounge Archive</h3>
+        <p>
+          Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.
+        </p>
+        <p class="links">
+          <a href="https://chill-lounge-archive.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <span> • </span>
+          <a href="https://github.com/Khanz99/chill-lounge-archive" target="_blank" rel="noopener">Source</a>
+        </p>
+        <ul class="stack">
+          <li>Next.js / React</li>
+          <li>Vercel</li>
+        </ul>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="project-card">
+        <h3>ComeThru Chat</h3>
+        <p>
+          Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.
+        </p>
+        <p class="links">
+          <a href="https://comethruchat.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <span> • </span>
+          <a href="https://github.com/Khanz99/comethru-chat" target="_blank" rel="noopener">Source</a>
+        </p>
+        <ul class="stack">
+          <li>React / Socket.io</li>
+          <li>Vercel</li>
+        </ul>
+      </article>
+    </div>
   </section>
 
-  <section class="contact">
+  <!-- ===== Contact ===== -->
+  <section id="contact">
     <h2>Contact</h2>
-    <p>Email: khanyisile@example.com</p>
-    <p>GitHub: <a href="https://github.com/your-username" target="_blank">your-username</a></p>
+    <p>Email: <a href="mailto:khanyem583@gmail.com">khanyem583@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/Khanz99" target="_blank" rel="noopener">@Khanz99</a></p>
   </section>
 
   <footer>
-    <p>&copy; 2025 Khanyisile Mashibini</p>
+    <p>© 2025 Khanyisile Mashibini. All rights reserved.</p>
   </footer>
-
 </body>
 </html>
