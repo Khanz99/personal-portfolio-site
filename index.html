@@ -213,7 +213,7 @@
       card.addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
           e.preventDefault();
-          window.open(url, "_blank", "noopener,noreferrer");
+          window.location.href = url;
         }
       });
     });
