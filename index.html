@@ -159,12 +159,14 @@
   </footer>
 
   <!-- ===== Rotating Titles Script (Type + Erase + Cycle) ===== -->
+    </footer>
+
+  <!-- ===== Rotating Titles Script ===== -->
   <script>
     (function () {
       const el = document.getElementById("role-rotator");
       if (!el) return;
 
-      // Customize your rotating titles here:
       const roles = [
         "Full-Stack Developer",
         "Web Developer",
@@ -175,54 +177,64 @@
         "Node.js Developer"
       ];
 
-      // Timings (in ms)
-      const TYPE_SPEED = 55;      // typing speed per character
-      const ERASE_SPEED = 40;     // backspace speed per character
-      const HOLD_TIME = 1200;     // pause after a word is fully typed
-      const GAP_TIME = 250;       // pause before typing the next word
-
-      // Respect reduced motion preferences
+      const TYPE_SPEED = 55, ERASE_SPEED = 40, HOLD_TIME = 1200, GAP_TIME = 250;
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const typeSpeed = prefersReduced ? 0 : TYPE_SPEED;
       const eraseSpeed = prefersReduced ? 0 : ERASE_SPEED;
       const holdTime = prefersReduced ? 600 : HOLD_TIME;
       const gapTime  = prefersReduced ? 0 : GAP_TIME;
 
-      let roleIndex = 0;
-      let charIndex = 0;
-      let typing = true;
+      let roleIndex = 0, charIndex = 0, typing = true;
 
       function typeLoop() {
         const current = roles[roleIndex];
-
         if (typing) {
-          // Type forward
           el.textContent = current.slice(0, charIndex + 1);
           charIndex++;
           if (charIndex === current.length) {
             typing = false;
             setTimeout(typeLoop, holdTime);
-          } else {
-            setTimeout(typeLoop, typeSpeed);
-          }
+          } else setTimeout(typeLoop, typeSpeed);
         } else {
-          // Erase
           el.textContent = current.slice(0, charIndex - 1);
           charIndex--;
           if (charIndex === 0) {
             typing = true;
             roleIndex = (roleIndex + 1) % roles.length;
             setTimeout(typeLoop, gapTime);
-          } else {
-            setTimeout(typeLoop, eraseSpeed);
-          }
+          } else setTimeout(typeLoop, eraseSpeed);
         }
       }
-
-      // Start
       typeLoop();
     })();
   </script>
+
+  <!-- ===== Make entire project cards clickable ===== -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".project-card").forEach(card => {
+        const url = card.getAttribute("data-href");
+        if (!url) return;
+
+        // open live site on click
+        card.addEventListener("click", e => {
+          if (e.target.closest("a")) return;  // ignore inner links
+          window.open(url, "_blank", "noopener,noreferrer");
+        });
+
+        // keyboard accessibility
+        card.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            window.open(url, "_blank", "noopener,noreferrer");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
 </body>
 </html>
 
