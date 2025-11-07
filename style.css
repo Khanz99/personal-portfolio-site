@@ -1,32 +1,29 @@
 /* Global Styles */
 <script>
-  // Make the whole project card clickable (mouse + keyboard)
-  document.querySelectorAll('.project-card').forEach(card => {
-    const url = card.getAttribute('data-href');
-    if (!url) return;
+  // Wait until the whole page content is loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".project-card").forEach(card => {
+      const url = card.getAttribute("data-href");
+      if (!url) return;
 
-    // Open on click
-    card.addEventListener('click', (e) => {
-      // If the click came from a real link inside the card, let it behave normally
-      const a = e.target.closest('a');
-      if (a) return;
-      window.open(url, '_blank', 'noopener');
-    });
+      // Make the card itself clickable
+      card.addEventListener("click", function(e) {
+        // Ignore clicks on inner <a> tags so those still work
+        if (e.target.closest("a")) return;
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
 
-    // Keyboard accessibility (Enter/Space)
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.open(url, '_blank', 'noopener');
-      }
-    });
-
-    // Prevent the inner links from bubbling up to the card
-    card.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', e => e.stopPropagation());
+      // Keyboard accessibility (for tab + Enter)
+      card.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+      });
     });
   });
 </script>
+
 
 body {
     font-family: Arial, sans-serif;

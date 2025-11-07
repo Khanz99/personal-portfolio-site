@@ -92,58 +92,47 @@
   </section>
 
   <!-- ===== Projects ===== -->
-  <section id="projects">
-    <h2>Projects</h2>
+ ><!-- ===== Projects ===== -->
+<section id="projects">
+  <h2>Projects</h2>
 
-    <div class="projects">
-      <!-- Project 1 -->
-      <!-- Project 1 (entire card opens the Live site) -->
-<article class="project-card" role="link" tabindex="0"
-         data-href="https://chill-lounge-archive.vercel.app">
-  <div class="project-header">
-    <!-- Use your own icon file name (put the png/jpg in the repo root or /assets) -->
-    <img class="project-icon" src="./chill-icon.png" alt="" aria-hidden="true">
-    <h3>Chill Lounge Archive</h3>
+  <div class="projects">
+    <!-- Project 1 -->
+    <article class="project-card" data-href="https://chill-lounge-archive.vercel.app" tabindex="0">
+      <h3>Chill Lounge Archive</h3>
+      <p>
+        Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.
+      </p>
+      <p class="links">
+        <a href="https://chill-lounge-archive.vercel.app" target="_blank" rel="noopener">Live site</a>
+        <span> • </span>
+        <a href="https://github.com/Khanz99/chill-lounge-archive" target="_blank" rel="noopener">Source</a>
+      </p>
+      <ul class="stack">
+        <li>Next.js / React</li>
+        <li>Vercel</li>
+      </ul>
+    </article>
+
+    <!-- Project 2 -->
+    <article class="project-card" data-href="https://comethruchat.vercel.app" tabindex="0">
+      <h3>ComeThru Chat</h3>
+      <p>
+        Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.
+      </p>
+      <p class="links">
+        <a href="https://comethruchat.vercel.app" target="_blank" rel="noopener">Live site</a>
+        <span> • </span>
+        <a href="https://github.com/Khanz99/comethru-chat" target="_blank" rel="noopener">Source</a>
+      </p>
+      <ul class="stack">
+        <li>React / Socket.io</li>
+        <li>Vercel</li>
+      </ul>
+    </article>
   </div>
+</section>
 
-  <p>Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.</p>
-
-  <p class="links">
-    <a href="https://chill-lounge-archive.vercel.app" target="_blank" rel="noopener"
-       class="live-link">Live site</a>
-    <span> • </span>
-    <a href="https://github.com/Khanz99/chill-lounge-archive" target="_blank" rel="noopener">Source</a>
-  </p>
-
-  <ul class="stack">
-    <li>Next.js / React</li><li>Vercel</li>
-  </ul>
-</article>
-
-<!-- Project 2 (entire card opens the Live site) -->
-<article class="project-card" role="link" tabindex="0"
-         data-href="https://comethruchat.vercel.app">
-  <div class="project-header">
-    <img class="project-icon" src="./comethru-icon.png" alt="" aria-hidden="true">
-    <h3>ComeThru Chat</h3>
-  </div>
-
-  <p>Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.</p>
-
-  <p class="links">
-    <a href="https://comethruchat.vercel.app" target="_blank" rel="noopener"
-       class="live-link">Live site</a>
-    <span> • </span>
-    <a href="https://github.com/Khanz99/comethru-chat" target="_blank" rel="noopener">Source</a>
-  </p>
-
-  <ul class="stack">
-    <li>React / Socket.io</li><li>Vercel</li>
-  </ul>
-</article>
-
-    </div>
-  </section>
 
   <!-- ===== Contact ===== -->
   <section id="contact">
@@ -207,31 +196,30 @@
       }
       typeLoop();
     })();
-  </script>
-
-  <!-- ===== Make entire project cards clickable ===== -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".project-card").forEach(card => {
-        const url = card.getAttribute("data-href");
-        if (!url) return;
+  // Make the entire project card clickable
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".project-card").forEach(card => {
+      const url = card.dataset.href;
+      if (!url) return;
 
-        // open live site on click
-        card.addEventListener("click", e => {
-          if (e.target.closest("a")) return;  // ignore inner links
+      // Open live site when clicking anywhere on the card (except actual links)
+      card.addEventListener("click", function(e) {
+        if (e.target.closest("a")) return; // let real links behave normally
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+
+      // Keyboard accessibility (Enter key)
+      card.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
           window.open(url, "_blank", "noopener,noreferrer");
-        });
-
-        // keyboard accessibility
-        card.addEventListener("keydown", e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            window.open(url, "_blank", "noopener,noreferrer");
-          }
-        });
+        }
       });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
 
