@@ -7,147 +7,79 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* ===== Base Styling ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: #f9f9f9; color: #333; line-height: 1.6; }
+    header { background: #222; color: #fff; padding: 2.5rem 1rem; text-align: center; }
+    header h1 { margin-bottom: .5rem; font-size: 2.2rem; }
+    header p { font-size: 1rem; color: #ccc; }
 
-    body {
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #222;
-      color: #fff;
-      padding: 2rem 0;
-      text-align: center;
-    }
-
-    header h1 {
-      margin-bottom: 0.5rem;
-      font-size: 2rem;
-    }
-
-    header p {
-      font-size: 1rem;
-      color: #ccc;
-    }
-
-    section {
-      padding: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    h2 {
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #222;
-      display: inline-block;
-      padding-bottom: 0.3rem;
-    }
-
-    /* ===== About Section ===== */
-    #about p {
-      margin-top: 1rem;
-    }
-
-    /* ===== Projects Section ===== */
-    #projects {
-      margin-top: 2rem;
-    }
-
-    .projects {
-      display: grid;
-      gap: 1rem;
-    }
-
-    @media (min-width: 760px) {
-      .projects {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .project-card {
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      background: #fff;
-      transition: box-shadow 0.2s ease;
-    }
-
-    .project-card:hover {
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .project-card h3 {
-      margin-bottom: 0.5rem;
-      color: #111;
-    }
-
-    .project-card p {
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .project-card .links a {
-      text-decoration: none;
-      color: #0078ff;
+    /* Rotating titles */
+    .role-line {
+      margin-top: .25rem;
+      min-height: 1.6rem; /* keeps header height stable while roles change */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      color: #e6e6e6;
       font-weight: 500;
     }
-
-    .project-card .links a:hover {
-      text-decoration: underline;
+    .role-prefix { opacity: .8; }
+    .role-current {
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid rgba(255,255,255,.6); /* cursor */
+      /* cursor blink */
+      animation: caret 0.9s steps(1) infinite;
+    }
+    @keyframes caret {
+      0%, 49% { border-color: rgba(255,255,255,.6); }
+      50%, 100% { border-color: transparent; }
     }
 
-    .project-card .stack {
-      margin-top: 0.5rem;
-      list-style: none;
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      padding: 0;
-    }
+    /* ===== Sections ===== */
+    section { padding: 2rem; max-width: 900px; margin: 0 auto; }
+    h2 { margin-bottom: 1rem; border-bottom: 2px solid #222; display: inline-block; padding-bottom: .3rem; }
 
-    .project-card .stack li {
-      font-size: 0.85rem;
-      padding: 0.15rem 0.5rem;
-      border: 1px solid #ddd;
-      border-radius: 999px;
-    }
+    /* ===== About ===== */
+    #about p { margin-top: 1rem; }
 
-    /* ===== Contact Section ===== */
-    #contact p {
-      margin-top: 0.5rem;
-      font-size: 1rem;
-    }
+    /* ===== Projects ===== */
+    #projects { margin-top: 2rem; }
+    .projects { display: grid; gap: 1rem; }
+    @media (min-width: 760px) { .projects { grid-template-columns: 1fr 1fr; } }
 
-    #contact a {
-      color: #0078ff;
-      text-decoration: none;
+    .project-card {
+      border: 1px solid #e5e5e5; border-radius: 8px; padding: 1rem 1.25rem; background: #fff;
+      transition: box-shadow .2s ease, transform .2s ease;
     }
+    .project-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .project-card h3 { margin-bottom: .5rem; color: #111; }
+    .project-card p { margin-bottom: .5rem; font-size: .95rem; }
+    .project-card .links a { text-decoration: none; color: #0078ff; font-weight: 500; }
+    .project-card .links a:hover { text-decoration: underline; }
+    .project-card .stack { margin-top: .5rem; list-style: none; display: flex; gap: .5rem; flex-wrap: wrap; padding: 0; }
+    .project-card .stack li { font-size: .85rem; padding: .15rem .5rem; border: 1px solid #ddd; border-radius: 999px; }
 
-    #contact a:hover {
-      text-decoration: underline;
-    }
+    /* ===== Contact ===== */
+    #contact p { margin-top: .5rem; font-size: 1rem; }
+    #contact a { color: #0078ff; text-decoration: none; }
+    #contact a:hover { text-decoration: underline; }
 
-    /* ===== Footer ===== */
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: #999;
-      font-size: 0.9rem;
-    }
+    footer { text-align: center; padding: 2rem 1rem; color: #999; font-size: .9rem; }
   </style>
 </head>
-
 <body>
   <header>
     <h1>Khanyisile Mashibini</h1>
     <p>Web Developer • Digital Creator • Problem Solver</p>
+
+    <!-- Rotating titles line -->
+    <div class="role-line" aria-live="polite" aria-atomic="true">
+      <span class="role-prefix">I am a</span>
+      <span id="role-rotator" class="role-current"></span>
+    </div>
   </header>
 
   <!-- ===== About Me ===== -->
@@ -167,9 +99,7 @@
       <!-- Project 1 -->
       <article class="project-card">
         <h3>Chill Lounge Archive</h3>
-        <p>
-          Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.
-        </p>
+        <p>Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.</p>
         <p class="links">
           <a href="https://chill-lounge-archive.vercel.app" target="_blank" rel="noopener">Live site</a>
           <span> • </span>
@@ -184,9 +114,7 @@
       <!-- Project 2 -->
       <article class="project-card">
         <h3>ComeThru Chat</h3>
-        <p>
-          Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.
-        </p>
+        <p>Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.</p>
         <p class="links">
           <a href="https://comethruchat.vercel.app" target="_blank" rel="noopener">Live site</a>
           <span> • </span>
@@ -203,12 +131,80 @@
   <!-- ===== Contact ===== -->
   <section id="contact">
     <h2>Contact</h2>
-    <p>Email: <a href="mailto:khanyem583@gmail.com">khanyem583@gmail.com</a></p>
+    <p>Email: <a href="mailto:khanyisile@gmail.com">khanyisile@gmail.com</a></p>
     <p>GitHub: <a href="https://github.com/Khanz99" target="_blank" rel="noopener">@Khanz99</a></p>
+    <!-- Example: show your certificate image if you want -->
+    <!-- <p><img src="./Responsive web design certification.png" alt="Responsive Web Design Certificate" style="max-width:100%;height:auto;border:1px solid #eee;border-radius:8px;margin-top:12px;"></p> -->
   </section>
 
   <footer>
     <p>© 2025 Khanyisile Mashibini. All rights reserved.</p>
   </footer>
+
+  <!-- ===== Rotating Titles Script (Type + Erase + Cycle) ===== -->
+  <script>
+    (function () {
+      const el = document.getElementById("role-rotator");
+      if (!el) return;
+
+      // Customize your rotating titles here:
+      const roles = [
+        "Full-Stack Developer",
+        "Web Developer",
+        "Front-End Developer",
+        "Back-End Developer",
+        "UI Engineer",
+        "React / Next.js Developer",
+        "Node.js Developer"
+      ];
+
+      // Timings (in ms)
+      const TYPE_SPEED = 55;      // typing speed per character
+      const ERASE_SPEED = 40;     // backspace speed per character
+      const HOLD_TIME = 1200;     // pause after a word is fully typed
+      const GAP_TIME = 250;       // pause before typing the next word
+
+      // Respect reduced motion preferences
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const typeSpeed = prefersReduced ? 0 : TYPE_SPEED;
+      const eraseSpeed = prefersReduced ? 0 : ERASE_SPEED;
+      const holdTime = prefersReduced ? 600 : HOLD_TIME;
+      const gapTime  = prefersReduced ? 0 : GAP_TIME;
+
+      let roleIndex = 0;
+      let charIndex = 0;
+      let typing = true;
+
+      function typeLoop() {
+        const current = roles[roleIndex];
+
+        if (typing) {
+          // Type forward
+          el.textContent = current.slice(0, charIndex + 1);
+          charIndex++;
+          if (charIndex === current.length) {
+            typing = false;
+            setTimeout(typeLoop, holdTime);
+          } else {
+            setTimeout(typeLoop, typeSpeed);
+          }
+        } else {
+          // Erase
+          el.textContent = current.slice(0, charIndex - 1);
+          charIndex--;
+          if (charIndex === 0) {
+            typing = true;
+            roleIndex = (roleIndex + 1) % roles.length;
+            setTimeout(typeLoop, gapTime);
+          } else {
+            setTimeout(typeLoop, eraseSpeed);
+          }
+        }
+      }
+
+      // Start
+      typeLoop();
+    })();
+  </script>
 </body>
 </html>
