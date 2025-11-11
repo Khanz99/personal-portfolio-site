@@ -1,87 +1,49 @@
-/* Global Styles */
-<script>
-  // Wait until the whole page content is loaded
-  document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".project-card").forEach(card => {
-      const url = card.getAttribute("data-href");
-      if (!url) return;
-
-      // Make the card itself clickable
-      card.addEventListener("click", function(e) {
-        // Ignore clicks on inner <a> tags so those still work
-        if (e.target.closest("a")) return;
-        window.open(url, "_blank", "noopener,noreferrer");
-      });
-
-      // Keyboard accessibility (for tab + Enter)
-      card.addEventListener("keydown", function(e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          window.open(url, "_blank", "noopener,noreferrer");
-        }
-      });
-    });
-  });
-</script>
-
-
+/* ===== Global ===== */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-  }
-  
-  /* Header */
-  header {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 30px 20px;
-  }
-  
-  /* Sections */
-  section {
-    padding: 20px;
-    margin: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  h1, h2 {
-    margin-top: 0;
-  }
-  
-  ul {
-    list-style-type: square;
-    padding-left: 20px;
-  }
-  
-  /* Links */
-  a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #333;
-    color: #fff;
-    margin-top: 40px;
-  }/* Make the whole card feel clickable */
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+/* Default sections (but not Projects; we override below) */
+section {
+  padding: 20px;
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1, h2 { margin-top: 0; }
+
+ul { list-style: square; padding-left: 20px; }
+
+a { color: #007BFF; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #333;
+  color: #fff;
+  margin-top: 40px;
+}
+
+/* Make cards feel clickable & focusable */
 .project-card { cursor: pointer; position: relative; }
 .project-card:focus { outline: 3px solid #0078ff33; outline-offset: 2px; }
 
-/* Title row with icon */
+/* Title row with icon (optional) */
 .project-header { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; }
 .project-icon {
   width: 28px; height: 28px; border-radius: 6px; object-fit: cover;
@@ -89,4 +51,75 @@ body {
 }
 .project-card h3 { margin: 0; }
 
-  
+/* ===== Projects Section (dark theme) ===== */
+#projects {
+  padding: 3rem 1rem;
+  background-color: #0f172a;  /* deep navy section bg */
+  color: #e5e7eb;
+  text-align: center;
+}
+
+/* Remove white section panel inside Projects */
+#projects section { background: transparent; box-shadow: none; margin: 0; padding: 0; }
+
+/* Grid layout for projects */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Unified project card look */
+.project-card,
+.project {
+  background: #1e293b;       /* the dark blue you liked */
+  color: #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.project-card:hover,
+.project:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 14px rgba(34,211,238,.25);
+}
+
+.project-card h3,
+.project h3 {
+  color: #22d3ee;
+  margin-bottom: .5rem;
+  font-size: 1.25rem;
+}
+
+.project-card p,
+.project p {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.project-links { margin-top: 1rem; }
+
+.project-links .btn {
+  display: inline-block;
+  margin: .3rem;
+  padding: .6rem 1.2rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: .2s ease;
+  background-color: #22d3ee;
+  color: #0f172a;
+}
+
+.project-links .btn.secondary {
+  background: transparent;
+  border: 1px solid #22d3ee;
+  color: #22d3ee;
+}
+
+.project-links .btn:hover { opacity: .85; }
