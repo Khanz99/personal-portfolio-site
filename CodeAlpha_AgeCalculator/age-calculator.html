@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Age Calculator</title>
+  <style>
+    :root{ --bg:#0f1724; --card:#0b1220; --accent:#6ee7b7; --muted:#94a3b8; --glass: rgba(255,255,255,0.04); }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:
+      linear-gradient(180deg,#071028 0%, #071423 60%); color:#e6eef6; display:flex;align-items:center;justify-content:center;
+      min-height:100vh;padding:24px;}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:14px; padding:24px; max-width:760px; width:100%; box-shadow:0 8px 30px rgba(2,6,23,0.6);}
+    h1{margin:0 0 8px;font-size:20px}
+    p.lead{margin:0 0 18px;color:var(--muted)}
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:16px;}
+    label{display:block;font-size:13px;color:var(--muted); margin-bottom:6px}
+    input[type="date"], button, .select {width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:var(--glass); color:inherit; font-size:15px}
+    button{cursor:pointer; border:none; background:linear-gradient(90deg,var(--accent), #34d399); color:#022; font-weight:600; padding:12px; transition:transform .12s ease}
+    button:active{transform:translateY(1px)}
+    .results{margin-top:18px; display:grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap:12px}
+    .stat{background:rgba(255,255,255,0.02); padding:12px; border-radius:10px; min-height:72px; display:flex; flex-direction:column; justify-content:center}
+    .stat .big{font-size:20px; font-weight:700; color:var(--accent)}
+    .stat .small{font-size:12px;color:var(--muted)}
+    .warning{color:#ffd6a5; margin-top:10px}
+    .muted-row{margin-top:12px;color:var(--muted);font-size:13px}
+    .footer{margin-top:16px; text-align:right; color:var(--muted); font-size:13px}
+    .small-btn{background:transparent;border:1px solid rgba(255,255,255,0.06); padding:8px;border-radius:8px;color:var(--muted); font-weight:600}
+    @media (max-width:640px){ .grid{grid-template-columns:1fr} .results{grid-template-columns:1fr 1fr} }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Age Calculator</h1>
+    <p class="lead">Enter a birth date and see your exact age (years, months, days) and time until your next birthday.</p>
+
+    <div class="grid" role="form" aria-label="Age calculator form">
+      <div>
+        <label for="birthdate">Birth date</label>
+        <input id="birthdate" type="date" aria-describedby="bd-help" />
+        <div id="bd-help" class="muted-row">Use the date picker or input yyyy-mm-dd.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <label for="tz">Now (current time)</label>
+        <input id="nowOverride" type="datetime-local" aria-describedby="now-help" />
+        <div id="now-help" class="muted-row">Optional: set a custom "now" for testing (leave blank to use current time).</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button id="calcBtn" aria-label="Calculate age">Calculate</button>
+      <button id="clearBtn" class="small-btn" aria-label="Clear inputs">Clear</button>
+      <button id="copyBtn" class="small-btn" aria-label="Copy results">Copy results</button>
+    </div>
+
+    <div id="warning" class="warning" role="status" aria-live="polite" hidden></div>
+
+    <section class="results" id="results" aria-live="polite" style="display:none;">
+      <div class="stat">
+        <div class="small">Age</div>
+        <div class="big" id="ageYMD">—</div>
+        <div class="small" id="ageYMDSub">years • months • days</div>
+      </div>
+
+      <div class="stat">
+        <div class="small">Total days</div>
+        <div class="big" id="totalDays">—</div>
+        <div class="small">Includes leap days</div>
+      </div>
+
+      <div class="stat">
+        <div class="small">Total hours</div>
+        <div class="big" id="totalHours">—</div>
+        <div class="small">Since birth</div>
+      </div>
+
+      <div class="stat">
+        <div class="small">Next birthday</div>
+        <div class="big" id="nextBD">—</div>
+        <div class="small" id="nextBDSub">countdown</div>
+      </div>
+
+      <div class="stat" style="grid-column: 1 / -1;">
+        <div class="small">Raw timestamps</div>
+        <div style="margin-top:6px;color:var(--muted)" id="rawInfo">—</div>
+      </div>
+    </section>
+
+    <div class="footer">Built for you — open-source-friendly 🌱</div>
+  </main>
+
+  <script>
+    // Helpers
+    const $ = id => document.getElementById(id);
+    const calcBtn = $('calcBtn'), clearBtn = $('clearBtn'), copyBtn = $('copyBtn');
+    const resultsEl = $('results'), warningEl = $('warning');
+
+    function daysInMonth(year, monthIndex) {
+      return new Date(year, monthIndex + 1, 0).getDate();
+    }
+
+    function computeAge(birth, now) {
+      if (birth > now) return { error: 'Birth date is in the future.' };
+
+      // Years, months, days with proper borrowing.
+      let y = now.getFullYear() - birth.getFullYear();
+      let m = now.getMonth() - birth.getMonth();
+      let d = now.getDate() - birth.getDate();
+      if (d < 0) {
+        // borrow from previous month
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0); // last day of prev month
+        d += prevMonth.getDate();
+        m -= 1;
+      }
+      if (m < 0) {
+        m += 12;
+        y -= 1;
+      }
+
+      // Totals
+      const ms = now - birth;
+      const totalSeconds = Math.floor(ms / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const totalHours = Math.floor(totalMinutes / 60);
+      const totalDays = Math.floor(totalHours / 24);
+
+      return {
+        years: y, months: m, days: d,
+        totalDays, totalHours, totalMinutes, totalSeconds,
+        birthTimestamp: birth.toISOString(), nowTimestamp: now.toISOString()
+      };
+    }
+
+    function timeUntil(dateA, dateB) {
+      // returns object {days,hours,minutes,seconds} from dateA -> dateB (dateB >= dateA)
+      let delta = Math.max(0, Math.floor((dateB - dateA) / 1000));
+      const days = Math.floor(delta / 86400); delta -= days * 86400;
+      const hours = Math.floor(delta / 3600); delta -= hours * 3600;
+      const minutes = Math.floor(delta / 60); delta -= minutes * 60;
+      const seconds = delta;
+      return { days, hours, minutes, seconds };
+    }
+
+    function formatYMD(obj) {
+      return `${obj.years} year${obj.years !== 1 ? 's' : ''}, ${obj.months} month${obj.months !== 1 ? 's' : ''}, ${obj.days} day${obj.days !== 1 ? 's' : ''}`;
+    }
+
+    function formatCountdown(c) {
+      return `${c.days}d ${c.hours}h ${c.minutes}m ${c.seconds}s`;
+    }
+
+    function doCalculate() {
+      warningEl.hidden = true;
+      resultsEl.style.display = 'none';
+
+      const bdVal = $('birthdate').value;
+      if (!bdVal) {
+        warningEl.textContent = 'Please choose a birth date.';
+        warningEl.hidden = false;
+        return;
+      }
+
+      // Build birth Date (preserve local midnight)
+      const birth = new Date(bdVal + 'T00:00:00');
+      // Optional override for "now" (for testing)
+      const nowOverrideVal = $('nowOverride').value;
+      const now = nowOverrideVal ? new Date(nowOverrideVal) : new Date();
+
+      const age = computeAge(birth, now);
+      if (age.error) {
+        warningEl.textContent = age.error;
+        warningEl.hidden = false;
+        return;
+      }
+
+      // Next birthday
+      let nextBD = new Date(now.getFullYear(), birth.getMonth(), birth.getDate(), birth.getHours(), birth.getMinutes(), birth.getSeconds());
+      // if nextBD is today but earlier than now, or <= now, advance
+      if (nextBD <= now) nextBD.setFullYear(nextBD.getFullYear() + 1);
+
+      const until = timeUntil(now, nextBD);
+
+      // Fill UI
+      $('ageYMD').textContent = `${age.years}y • ${age.months}m • ${age.days}d`;
+      $('totalDays').textContent = `${age.totalDays.toLocaleString()} day${age.totalDays !== 1 ? 's' : ''}`;
+      $('totalHours').textContent = `${age.totalHours.toLocaleString()} hr`;
+      $('nextBD').textContent = formatCountdown(until);
+      $('nextBDSub').textContent = `Next birthday: ${nextBD.toDateString()}.`;
+
+      $('rawInfo').textContent = `Birth: ${age.birthTimestamp} · Now: ${age.nowTimestamp} · Total seconds: ${age.totalSeconds.toLocaleString()}`;
+
+      resultsEl.style.display = 'grid';
+      // set accessible status
+      warningEl.hidden = true;
+    }
+
+    calcBtn.addEventListener('click', doCalculate);
+    clearBtn.addEventListener('click', () => {
+      $('birthdate').value = '';
+      $('nowOverride').value = '';
+      resultsEl.style.display = 'none';
+      warningEl.hidden = true;
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if (resultsEl.style.display === 'none') {
+        warningEl.textContent = 'No results to copy. Calculate first.';
+        warningEl.hidden = false;
+        return;
+      }
+      const text = [
+        `Age: ${$('ageYMD').textContent}`,
+        `Total days: ${$('totalDays').textContent}`,
+        `Total hours: ${$('totalHours').textContent}`,
+        `Next birthday countdown: ${$('nextBD').textContent}`,
+        `${$('rawInfo').textContent}`
+      ].join('\\n');
+      try {
+        await navigator.clipboard.writeText(text);
+        warningEl.textContent = 'Results copied to clipboard.';
+        warningEl.hidden = false;
+        setTimeout(()=> warningEl.hidden = true, 2200);
+      } catch (e) {
+        warningEl.textContent = 'Unable to copy automatically. Select and copy the results manually.';
+        warningEl.hidden = false;
+      }
+    });
+
+    // Quick keyboard: press Enter in date input to calculate
+    $('birthdate').addEventListener('keydown', (e) => { if (e.key === 'Enter') doCalculate(); });
+  </script>
+</body>
+</html>
+
