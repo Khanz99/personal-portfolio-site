@@ -31,10 +31,10 @@
     .projects { display: grid; gap: 1rem; }
     @media (min-width: 760px) { .projects { grid-template-columns: 1fr 1fr; } }
 
-    /* Unified dark-blue project cards (all three) */
+    /* Unified dark-blue project cards */
     .project-card{
-      background:#1e293b;       /* dark blue */
-      color:#e5e7eb;            /* light text */
+      background:#1e293b;
+      color:#e5e7eb;
       border: 1px solid #1f2937;
       border-radius: 12px;
       padding: 1rem 1.25rem;
@@ -120,7 +120,7 @@
         </ul>
       </article>
 
-      <!-- Project 3 (BlueMatic) -->
+      <!-- Project 3 -->
       <article class="project-card" data-href="https://khanz99.github.io/bluematic-memory-game/" tabindex="0" role="link" aria-label="Open BlueMatic Memory Game">
         <h3>BlueMatic Memory Game 🎮</h3>
         <p>
@@ -136,7 +136,8 @@
           <li>GWD</li>
         </ul>
       </article>
-      <!-- Project 4 — Age Calculator (Code Alpha) -->
+
+      <!-- Project 4 -->
       <article class="project-card" data-href="/CodeAlpha_AgeCalculator/" tabindex="0" role="link" aria-label="Open Age Calculator — Code Alpha">
         <h3>Age Calculator ✦ Code Alpha</h3>
         <p>
@@ -151,6 +152,24 @@
           <li>HTML</li>
           <li>CSS</li>
           <li>JavaScript</li>
+        </ul>
+      </article>
+
+      <!-- Project 5 -->
+      <article class="project-card" data-href="https://omphiles-blog.netlify.app" tabindex="0" role="link" aria-label="Open Omphiles Blog">
+        <h3>Omphiles Blog</h3>
+        <p>
+          A cinematic editorial-style blog featuring custom movie and book recommendation pages, interactive reader comments, newsletter-gated access links, and a soft curated visual aesthetic.
+        </p>
+        <p class="links">
+          <a href="https://omphiles-blog.netlify.app" target="_blank" rel="noopener noreferrer">Live site</a>
+          <span> • </span>
+          <a href="https://github.com/Khanz99/omphiles-blog" target="_blank" rel="noopener noreferrer">Source</a>
+        </p>
+        <ul class="stack">
+          <li>HTML / CSS / JS</li>
+          <li>Netlify</li>
+          <li>GitHub</li>
         </ul>
       </article>
     </div>
@@ -222,13 +241,11 @@
         const url = card.dataset.href;
         if (!url) return;
 
-        // Open live site when clicking anywhere on the card (except actual links)
         card.addEventListener("click", function(e) {
-          if (e.target.closest("a")) return; // let real links behave normally
+          if (e.target.closest("a")) return;
           window.open(url, "_blank", "noopener,noreferrer");
         });
 
-        // Keyboard accessibility (Enter or Space)
         card.addEventListener("keydown", function(e) {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -240,9 +257,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
