@@ -2,258 +2,976 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Khanyisile Mashibini | Web Developer Portfolio</title>
-  <link rel="stylesheet" href="./style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khanyisile Mashibini | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
   <style>
-    /* ===== Base Styling ===== */
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background: #f9f9f9; color: #333; line-height: 1.6; }
-    header { background: #222; color: #fff; padding: 2.5rem 1rem; text-align: center; }
-    header h1 { margin-bottom: .5rem; font-size: 2.2rem; }
-    header p { font-size: 1rem; color: #ccc; }
-
-    /* Rotating titles */
-    .role-line { margin-top: .25rem; min-height: 1.6rem; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; color: #e6e6e6; font-weight: 500; }
-    .role-prefix { opacity: .8; }
-    .role-current { position: relative; white-space: nowrap; overflow: hidden; border-right: 2px solid rgba(255,255,255,.6); animation: caret 0.9s steps(1) infinite; }
-    @keyframes caret { 0%, 49% { border-color: rgba(255,255,255,.6); } 50%, 100% { border-color: transparent; } }
-
-    /* ===== Sections ===== */
-    section { padding: 2rem; max-width: 900px; margin: 0 auto; }
-    h2 { margin-bottom: 1rem; border-bottom: 2px solid #222; display: inline-block; padding-bottom: .3rem; }
-
-    /* ===== About ===== */
-    #about p { margin-top: 1rem; }
-
-    /* ===== Projects ===== */
-    #projects { margin-top: 2rem; }
-    .projects { display: grid; gap: 1rem; }
-    @media (min-width: 760px) { .projects { grid-template-columns: 1fr 1fr; } }
-
-    /* Unified dark-blue project cards */
-    .project-card{
-      background:#1e293b;
-      color:#e5e7eb;
-      border: 1px solid #1f2937;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      transition: transform .2s ease, box-shadow .2s ease;
-      cursor: pointer;
-      outline: none;
+    :root {
+      --dark:     #060b14;
+      --surface:  #0d1625;
+      --card:     rgba(15, 25, 45, 0.85);
+      --border:   rgba(255,255,255,0.07);
+      --text:     #e8edf5;
+      --muted:    #7a8ba8;
+      --cyan:     #22d3ee;
+      --purple:   #a855f7;
+      --green:    #34d399;
+      --radius:   20px;
     }
-    .project-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(34,211,238,.25); }
-    .project-card:focus-visible{ outline: 3px solid #22d3ee66; outline-offset: 4px; }
 
-    .project-card h3 { margin-bottom: .5rem; color: #22d3ee; }
-    .project-card p { margin-bottom: .5rem; font-size: .95rem; color:#94a3b8; }
-    .project-card .links a { text-decoration: none; color: #22d3ee; font-weight: 600; }
-    .project-card .links a:hover { text-decoration: underline; }
-    .project-card .stack { margin-top: .5rem; list-style: none; display: flex; gap: .5rem; flex-wrap: wrap; padding: 0; }
-    .project-card .stack li { font-size: .85rem; padding: .15rem .5rem; border: 1px solid #334155; border-radius: 999px; color:#cbd5e1; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ===== Contact ===== */
-    #contact p { margin-top: .5rem; font-size: 1rem; }
-    #contact a { color: #0078ff; text-decoration: none; }
-    #contact a:hover { text-decoration: underline; }
+    html { scroll-behavior: smooth; }
 
-    footer { text-align: center; padding: 2rem 1rem; color: #999; font-size: .9rem; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── GRADIENT ORBS ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 600px; height: 600px;
+      top: -200px; left: -180px;
+      background: radial-gradient(circle, rgba(34,211,238,0.13), transparent 70%);
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      top: 10vh; right: -200px;
+      background: radial-gradient(circle, rgba(168,85,247,0.12), transparent 70%);
+    }
+    .orb-3 {
+      width: 400px; height: 400px;
+      bottom: 10vh; left: 30%;
+      background: radial-gradient(circle, rgba(52,211,153,0.08), transparent 70%);
+    }
+
+    /* ── GRID LINES ── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    main { position: relative; z-index: 1; }
+    .container {
+      width: min(1120px, calc(100% - 3rem));
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 1.5rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      width: min(1120px, calc(100% - 3rem));
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 2rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(34,211,238,0.25);
+      border-radius: 999px;
+      background: rgba(34,211,238,0.06);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero h1 .name-line {
+      display: block;
+    }
+
+    .hero h1 .accent-text {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag {
+      font-size: 0.82rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag:hover { border-color: rgba(34,211,238,0.4); color: var(--cyan); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+      animation: scrollDown 2s ease infinite;
+    }
+
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── SECTION HEADINGS ── */
+    .section { padding: 6rem 0; }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--cyan);
+      opacity: 0.4;
+    }
+
+    .section-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 0.75rem;
+      line-height: 1.1;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .about-card:hover::before { opacity: 1; }
+
+    .about-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .about-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .about-main {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(168,85,247,0.06));
+    }
+
+    .about-main p {
+      color: #b0bfd4;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { padding-top: 2rem; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: var(--surface);
+      transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease, border-color 0.3s;
+      group: true;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(34,211,238,0.3);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,211,238,0.1);
+    }
+
+    /* Screenshot container */
+    .project-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: #0a1525;
+    }
+
+    .project-thumb iframe {
+      width: 200%;
+      height: 200%;
+      transform: scale(0.5);
+      transform-origin: top left;
+      border: none;
+      pointer-events: none;
+      filter: brightness(0.9);
+      transition: filter 0.3s;
+    }
+
+    .project-card:hover .project-thumb iframe { filter: brightness(1.05); }
+
+    /* Fallback screenshot via service */
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-thumb img { transform: scale(1.04); }
+
+    .project-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--surface) 100%);
+    }
+
+    /* Browser chrome bar */
+    .browser-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 28px;
+      background: rgba(10,18,35,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .browser-url {
+      margin-left: 8px;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.3);
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    /* Card body */
+    .project-body {
+      padding: 1.5rem 1.6rem 1.8rem;
+    }
+
+    .project-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .project-body p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stack-pills {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.07);
+      color: #8ecfdb;
+      border: 1px solid rgba(34,211,238,0.15);
+    }
+
+    .visit-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-decoration: none;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(34,211,238,0.3);
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .visit-btn:hover {
+      background: rgba(34,211,238,0.1);
+      color: #fff;
+    }
+
+    .visit-btn svg {
+      width: 12px; height: 12px;
+      transition: transform 0.2s;
+    }
+
+    .visit-btn:hover svg { transform: translate(2px,-2px); }
+
+    /* ── CONTACT ── */
+    #contact { padding-bottom: 8rem; }
+
+    .contact-box {
+      margin-top: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34,211,238,0.04), rgba(168,85,247,0.04));
+    }
+
+    .contact-left p {
+      color: var(--muted);
+      margin-top: 1rem;
+      line-height: 1.75;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: rgba(34,211,238,0.35);
+      background: rgba(34,211,238,0.05);
+      transform: translateX(4px);
+    }
+
+    .contact-link-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .icon-email { background: rgba(34,211,238,0.12); }
+    .icon-github { background: rgba(168,85,247,0.12); }
+    .icon-wa { background: rgba(52,211,153,0.12); }
+
+    .contact-link-text strong {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.1rem;
+    }
+
+    .contact-link-text span {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── FLOATING NAV ── */
+    .floating-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(13, 22, 37, 0.85);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,211,238,0.08);
+    }
+
+    .floating-nav a {
+      width: 38px; height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .floating-nav a:hover {
+      background: rgba(34,211,238,0.12);
+      color: var(--cyan);
+      transform: scale(1.15) translateY(-2px);
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: rgba(255,255,255,0.1);
+      margin: 0 0.3rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero h1 { letter-spacing: -2px; }
+
+      #about .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-main { grid-column: auto; }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-box {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+      }
+
+      .floating-nav a { width: 34px; height: 34px; font-size: 0.95rem; }
+    }
   </style>
 </head>
-<body>
-  <header>
-    <h1>Khanyisile Mashibini</h1>
-    <p>Web Developer • Digital Creator • Problem Solver</p>
 
-    <!-- Rotating titles line -->
-    <div class="role-line" aria-live="polite" aria-atomic="true">
-      <span class="role-prefix">I am a</span>
-      <span id="role-rotator" class="role-current">Web Developer</span>
-    </div>
-  </header>
+<body id="top">
 
-  <!-- ===== About Me ===== -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I'm a self-taught developer and AI enthusiast with a background in media and content strategy.
-      I build responsive websites, automation tools, and digital projects focused on real-world results.
-    </p>
-  </section>
+  <!-- Background layers -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-bg"></div>
 
-  <!-- ===== Projects ===== -->
-  <section id="projects">
-    <h2>Projects</h2>
+  <main>
 
-    <div class="projects">
-      <!-- Project 1 -->
-      <article class="project-card" data-href="https://chill-lounge-archive.vercel.app" tabindex="0" role="link" aria-label="Open Chill Lounge Archive">
-        <h3>Chill Lounge Archive</h3>
-        <p>
-          Conversations about confidence, culture, and real connection with embedded TikTok clips and curated episodes.
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">Available for work</div>
+        <h1>
+          <span class="name-line">Khanyisile</span>
+          <span class="name-line accent-text">Mashibini</span>
+        </h1>
+        <p class="hero-desc">
+          A developer focused on building clean, modern, high-performance web
+          experiences — combining design thinking with technical execution to
+          create things that actually feel human.
         </p>
-        <p class="links">
-          <a href="https://chill-lounge-archive.vercel.app" target="_blank" rel="noopener noreferrer">Live site</a>
-          <span> • </span>
-          <a href="https://github.com/Khanz99/chill-lounge-archive" target="_blank" rel="noopener noreferrer">Source</a>
-        </p>
-        <ul class="stack">
-          <li>Next.js / React</li>
-          <li>Vercel</li>
-        </ul>
-      </article>
+        <div class="hero-tags">
+          <span class="tag">Web Development</span>
+          <span class="tag">UI Design</span>
+          <span class="tag">Frontend</span>
+          <span class="tag">Problem Solving</span>
+          <span class="tag">Real-time Apps</span>
+        </div>
+      </div>
 
-      <!-- Project 2 -->
-      <article class="project-card" data-href="https://comethruchat.vercel.app" tabindex="0" role="link" aria-label="Open ComeThru Chat">
-        <h3>ComeThru Chat</h3>
-        <p>
-          Anonymous real-time chat room web app featuring a sleek dark UI and instant messaging functionality.
-        </p>
-        <p class="links">
-          <a href="https://comethruchat.vercel.app" target="_blank" rel="noopener noreferrer">Live site</a>
-          <span> • </span>
-          <a href="https://github.com/Khanz99/comethru-chat" target="_blank" rel="noopener noreferrer">Source</a>
-        </p>
-        <ul class="stack">
-          <li>React / Socket.io</li>
-          <li>Vercel</li>
-        </ul>
-      </article>
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
 
-      <!-- Project 3 -->
-      <article class="project-card" data-href="https://khanz99.github.io/bluematic-memory-game/" tabindex="0" role="link" aria-label="Open BlueMatic Memory Game">
-        <h3>BlueMatic Memory Game 🎮</h3>
-        <p>
-          Interactive HTML5 memory game for programmatic ad placements. Built with Google Web Designer + vanilla JS. Sizes: 300×250, 300×600, 320×480.
-        </p>
-        <p class="links">
-          <a href="https://khanz99.github.io/bluematic-memory-game/" target="_blank" rel="noopener noreferrer">View Live</a>
-          <span> • </span>
-          <a href="https://github.com/Khanz99/bluematic-memory-game" target="_blank" rel="noopener noreferrer">View Code</a>
-        </p>
-        <ul class="stack">
-          <li>HTML5 / CSS / JS</li>
-          <li>GWD</li>
-        </ul>
-      </article>
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-label">Who I am</div>
+        <h2 class="section-heading">A builder at heart.</h2>
 
-      <!-- Project 4 -->
-      <article class="project-card" data-href="/CodeAlpha_AgeCalculator/" tabindex="0" role="link" aria-label="Open Age Calculator — Code Alpha">
-        <h3>Age Calculator ✦ Code Alpha</h3>
-        <p>
-          HTML/CSS/JS app that calculates exact age in years, months and days, shows total lifetime stats, and displays a countdown to the next birthday.
-        </p>
-        <p class="links">
-          <a href="/CodeAlpha_AgeCalculator/" target="_blank" rel="noopener noreferrer">View Live</a>
-          <span> • </span>
-          <a href="https://github.com/Khanz99/CodeAlpha_AgeCalculator" target="_blank" rel="noopener noreferrer">View Code</a>
-        </p>
-        <ul class="stack">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-        </ul>
-      </article>
+        <div class="about-grid">
+          <div class="about-card about-main fade-up">
+            <p>
+              I'm a self-directed web developer who builds things out of curiosity and ships them.
+              My portfolio spans real-time applications, editorial blogs, interactive games, and
+              content archives — each one a different problem, a different set of skills, and a
+              different stage of growth. I don't follow a single stack — I follow the problem.
+            </p>
+          </div>
 
-      <!-- Project 5 -->
-      <article class="project-card" data-href="https://omphiles-blog.netlify.app" tabindex="0" role="link" aria-label="Open Omphiles Blog">
-        <h3>Omphiles Blog</h3>
-        <p>
-          A cinematic editorial-style blog featuring custom movie and book recommendation pages, interactive reader comments, newsletter-gated access links, and a soft curated visual aesthetic.
-        </p>
-        <p class="links">
-          <a href="https://omphiles-blog.netlify.app" target="_blank" rel="noopener noreferrer">Live site</a>
-          <span> • </span>
-          <a href="https://github.com/Khanz99/omphiles-blog" target="_blank" rel="noopener noreferrer">Source</a>
-        </p>
-        <ul class="stack">
-          <li>HTML / CSS / JS</li>
-          <li>Netlify</li>
-          <li>GitHub</li>
-        </ul>
-      </article>
-    </div>
-  </section>
+          <div class="about-card fade-up" style="transition-delay:0.1s">
+            <div class="about-card-icon">🧩</div>
+            <h3>Problem First</h3>
+            <p>Every project started with a real question I wanted to answer or a thing I wanted to exist.</p>
+          </div>
 
-  <!-- ===== Contact ===== -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:khanyem583@gmail.com">khanyem583@gmail.com</a></p>
-    <p>GitHub: <a href="https://github.com/Khanz99" target="_blank" rel="noopener noreferrer">@Khanz99</a></p>
-  </section>
+          <div class="about-card fade-up" style="transition-delay:0.2s">
+            <div class="about-card-icon">🚀</div>
+            <h3>Ship It</h3>
+            <p>All four projects are live and deployed — real URLs, real users, real feedback.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-heading">Things I've built.</h2>
+
+        <div class="projects-grid">
+
+          <!-- Omphile's Blog -->
+          <div class="project-card fade-up" onclick="window.open('https://omphiles-blog.netlify.app','_blank')">
+            <div class="project-thumb">
+              <div class="browser-bar">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+                <span class="browser-url">omphiles-blog.netlify.app</span>
+              </div>
+              <img
+                src="https://api.screenshotone.com/take?url=https%3A%2F%2Fomphiles-blog.netlify.app&viewport_width=1280&viewport_height=720&format=jpg&quality=85&full_page=false"
+                alt="Omphile's Blog preview"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.thumb-fallback').style.display='flex'"
+              />
+              <div class="thumb-fallback" style="display:none; position:absolute; inset:28px 0 0; align-items:center; justify-content:center; background:linear-gradient(135deg,#0a1525,#0f1f35); flex-direction:column; gap:0.5rem;">
+                <span style="font-size:3rem;">✍️</span>
+                <span style="color:var(--muted);font-size:0.8rem;">omphiles-blog.netlify.app</span>
+              </div>
+              <div class="project-thumb-overlay"></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tag">Blog</div>
+              <h3>Omphile's Blog</h3>
+              <p>Cinematic editorial blog with curated storytelling, visuals, and an atmosphere that pulls you in.</p>
+              <div class="project-footer">
+                <div class="stack-pills">
+                  <span class="pill">HTML</span>
+                  <span class="pill">CSS</span>
+                  <span class="pill">JS</span>
+                </div>
+                <a class="visit-btn" href="https://omphiles-blog.netlify.app" target="_blank" onclick="event.stopPropagation()">
+                  Visit
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chill Lounge Archive -->
+          <div class="project-card fade-up" style="transition-delay:0.1s" onclick="window.open('https://chill-lounge-archive.vercel.app','_blank')">
+            <div class="project-thumb">
+              <div class="browser-bar">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+                <span class="browser-url">chill-lounge-archive.vercel.app</span>
+              </div>
+              <img
+                src="https://api.screenshotone.com/take?url=https%3A%2F%2Fchill-lounge-archive.vercel.app&viewport_width=1280&viewport_height=720&format=jpg&quality=85&full_page=false"
+                alt="Chill Lounge Archive preview"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.thumb-fallback').style.display='flex'"
+              />
+              <div class="thumb-fallback" style="display:none; position:absolute; inset:28px 0 0; align-items:center; justify-content:center; background:linear-gradient(135deg,#0d1a2e,#112240); flex-direction:column; gap:0.5rem;">
+                <span style="font-size:3rem;">🎙️</span>
+                <span style="color:var(--muted);font-size:0.8rem;">chill-lounge-archive.vercel.app</span>
+              </div>
+              <div class="project-thumb-overlay"></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tag">Archive</div>
+              <h3>Chill Lounge Archive</h3>
+              <p>Podcast-style platform with embedded content and a curated, mood-driven browsing experience.</p>
+              <div class="project-footer">
+                <div class="stack-pills">
+                  <span class="pill">HTML</span>
+                  <span class="pill">CSS</span>
+                  <span class="pill">JS</span>
+                </div>
+                <a class="visit-btn" href="https://chill-lounge-archive.vercel.app" target="_blank" onclick="event.stopPropagation()">
+                  Visit
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ComeThru Chat -->
+          <div class="project-card fade-up" style="transition-delay:0.2s" onclick="window.open('https://comethruchat.vercel.app','_blank')">
+            <div class="project-thumb">
+              <div class="browser-bar">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+                <span class="browser-url">comethruchat.vercel.app</span>
+              </div>
+              <img
+                src="https://api.screenshotone.com/take?url=https%3A%2F%2Fcomethruchat.vercel.app&viewport_width=1280&viewport_height=720&format=jpg&quality=85&full_page=false"
+                alt="ComeThru Chat preview"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.thumb-fallback').style.display='flex'"
+              />
+              <div class="thumb-fallback" style="display:none; position:absolute; inset:28px 0 0; align-items:center; justify-content:center; background:linear-gradient(135deg,#0d1a30,#0a1a2e); flex-direction:column; gap:0.5rem;">
+                <span style="font-size:3rem;">💬</span>
+                <span style="color:var(--muted);font-size:0.8rem;">comethruchat.vercel.app</span>
+              </div>
+              <div class="project-thumb-overlay"></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tag">Chat App</div>
+              <h3>ComeThru Chat</h3>
+              <p>Real-time anonymous chat application with a clean, modern UI designed for effortless conversation.</p>
+              <div class="project-footer">
+                <div class="stack-pills">
+                  <span class="pill">Real-time</span>
+                  <span class="pill">JS</span>
+                </div>
+                <a class="visit-btn" href="https://comethruchat.vercel.app" target="_blank" onclick="event.stopPropagation()">
+                  Visit
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- BlueMatic Game -->
+          <div class="project-card fade-up" style="transition-delay:0.3s" onclick="window.open('https://khanz99.github.io/bluematic-memory-game/','_blank')">
+            <div class="project-thumb">
+              <div class="browser-bar">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+                <span class="browser-url">khanz99.github.io/bluematic-memory-game</span>
+              </div>
+              <img
+                src="https://api.screenshotone.com/take?url=https%3A%2F%2Fkhanz99.github.io%2Fbluematic-memory-game%2F&viewport_width=1280&viewport_height=720&format=jpg&quality=85&full_page=false"
+                alt="BlueMatic Game preview"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.thumb-fallback').style.display='flex'"
+              />
+              <div class="thumb-fallback" style="display:none; position:absolute; inset:28px 0 0; align-items:center; justify-content:center; background:linear-gradient(135deg,#0c1a30,#0d2040); flex-direction:column; gap:0.5rem;">
+                <span style="font-size:3rem;">🎮</span>
+                <span style="color:var(--muted);font-size:0.8rem;">khanz99.github.io</span>
+              </div>
+              <div class="project-thumb-overlay"></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tag">Game</div>
+              <h3>BlueMatic Game</h3>
+              <p>Interactive HTML5 memory card game — built for ad campaigns and designed to be actually fun to play.</p>
+              <div class="project-footer">
+                <div class="stack-pills">
+                  <span class="pill">HTML5</span>
+                  <span class="pill">Canvas</span>
+                  <span class="pill">JS</span>
+                </div>
+                <a class="visit-btn" href="https://khanz99.github.io/bluematic-memory-game/" target="_blank" onclick="event.stopPropagation()">
+                  Visit
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-label">Get in touch</div>
+        <h2 class="section-heading">Let's work together.</h2>
+
+        <div class="contact-box fade-up">
+          <div class="contact-left">
+            <p>
+              I'm open to freelance work, collaborations, and interesting projects.
+              Whether you have something specific in mind or just want to talk shop —
+              my inbox is open.
+            </p>
+          </div>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:khanyem583@gmail.com">
+              <div class="contact-link-icon icon-email">📧</div>
+              <div class="contact-link-text">
+                <strong>Email</strong>
+                <span>khanyem583@gmail.com</span>
+              </div>
+            </a>
+            <a class="contact-link" href="https://github.com/Khanz99" target="_blank">
+              <div class="contact-link-icon icon-github">🐙</div>
+              <div class="contact-link-text">
+                <strong>GitHub</strong>
+                <span>@Khanz99</span>
+              </div>
+            </a>
+            <a class="contact-link" href="https://wa.me/27700000000" target="_blank">
+              <div class="contact-link-icon icon-wa">💬</div>
+              <div class="contact-link-text">
+                <strong>WhatsApp</strong>
+                <span>Send a message</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    <p>© 2025 Khanyisile Mashibini. All rights reserved.</p>
+    <p>© 2026 Khanyisile Mashibini — Built with intention.</p>
   </footer>
 
-  <!-- ===== Rotating Titles Script ===== -->
+  <!-- ===== FLOATING NAV ===== -->
+  <nav class="floating-nav">
+    <a href="#top" title="Home">🏠</a>
+    <div class="nav-divider"></div>
+    <a href="#about" title="About">👤</a>
+    <a href="#projects" title="Projects">💼</a>
+    <a href="#contact" title="Contact">✉️</a>
+    <div class="nav-divider"></div>
+    <a href="https://github.com/Khanz99" target="_blank" title="GitHub">🐙</a>
+  </nav>
+
   <script>
-    (function () {
-      const el = document.getElementById("role-rotator");
-      if (!el) return;
-
-      const roles = [
-        "Full-Stack Developer",
-        "Web Developer",
-        "Front-End Developer",
-        "Back-End Developer",
-        "UI Engineer",
-        "React / Next.js Developer",
-        "Node.js Developer"
-      ];
-
-      const TYPE_SPEED = 55, ERASE_SPEED = 40, HOLD_TIME = 1200, GAP_TIME = 250;
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const typeSpeed = prefersReduced ? 0 : TYPE_SPEED;
-      const eraseSpeed = prefersReduced ? 0 : ERASE_SPEED;
-      const holdTime = prefersReduced ? 600 : HOLD_TIME;
-      const gapTime  = prefersReduced ? 0 : GAP_TIME;
-
-      let roleIndex = 0, charIndex = 0, typing = true;
-
-      function typeLoop() {
-        const current = roles[roleIndex];
-        if (typing) {
-          el.textContent = current.slice(0, charIndex + 1);
-          charIndex++;
-          if (charIndex === current.length) {
-            typing = false;
-            setTimeout(typeLoop, holdTime);
-          } else setTimeout(typeLoop, typeSpeed);
-        } else {
-          el.textContent = current.slice(0, charIndex - 1);
-          charIndex--;
-          if (charIndex === 0) {
-            typing = true;
-            roleIndex = (roleIndex + 1) % roles.length;
-            setTimeout(typeLoop, gapTime);
-          } else setTimeout(typeLoop, eraseSpeed);
+    // Intersection observer for fade-up animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
         }
-      }
-      typeLoop();
-    })();
-  </script>
+      });
+    }, { threshold: 0.12 });
 
-  <!-- ===== Make the entire project card clickable ===== -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      document.querySelectorAll(".project-card").forEach(card => {
-        const url = card.dataset.href;
-        if (!url) return;
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-        card.addEventListener("click", function(e) {
-          if (e.target.closest("a")) return;
-          window.open(url, "_blank", "noopener,noreferrer");
-        });
+    // Active nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.floating-nav a[href^="#"]');
 
-        card.addEventListener("keydown", function(e) {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            window.open(url, "_blank", "noopener,noreferrer");
-          }
-        });
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.background = a.getAttribute('href') === '#' + current
+          ? 'rgba(34,211,238,0.12)' : '';
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? 'var(--cyan)' : '';
       });
     });
   </script>
+
 </body>
 </html>
