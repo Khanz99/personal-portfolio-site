@@ -348,6 +348,132 @@
     .open:hover { background: var(--signal); border-color: var(--signal); }
     .open svg { width: 11px; height: 11px; }
 
+
+    /* ── PROJECT KHANZ FEATURE ────────────────── */
+    .khanz-feature {
+      padding-top: clamp(3.5rem, 8vw, 6rem);
+    }
+
+    .khanz-shell {
+      border: 1px solid var(--ink);
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .khanz-cover {
+      position: relative;
+      background: #080b10;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .khanz-cover img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .khanz-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .khanz-copy {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      padding: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .khanz-kicker {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 1rem;
+    }
+
+    .khanz-copy h3 {
+      max-width: 15ch;
+      font-family: var(--display);
+      font-size: clamp(2rem, 5vw, 4.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.25rem;
+    }
+
+    .khanz-copy .intro {
+      max-width: 62ch;
+      color: var(--ink-2);
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+    }
+
+    .khanz-facts {
+      border-top: 1px solid var(--ink);
+    }
+
+    .khanz-facts div {
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .khanz-facts dt {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .khanz-facts dd {
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .khanz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .khanz-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--ink);
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+    }
+
+    .khanz-actions a:first-child {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .khanz-actions a:hover {
+      color: #fff;
+      background: var(--signal);
+      border-color: var(--signal);
+    }
+
+    @media (max-width: 760px) {
+      .khanz-copy { grid-template-columns: 1fr; }
+      .khanz-copy h3 { max-width: none; }
+      .khanz-facts div { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+
     /* ── CONTACT ──────────────────────────────── */
     .contact-grid {
       display: grid;
@@ -486,12 +612,77 @@
       </div>
     </section>
 
+
+    <!-- ── PROJECT KHANZ FEATURE ── -->
+    <section id="project-khanz" class="khanz-feature">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>Featured engineering case study</h2>
+          <span class="count">Project Khanz · 2026</span>
+        </div>
+
+        <article class="khanz-shell rise">
+          <figure class="khanz-cover">
+            <img
+              src="assets/project-khanz-cover.png"
+              alt="Illustrated Project Khanz cover showing two Ubuntu home servers, local AI services, Docker, Pi-hole and a private network ecosystem."
+              loading="lazy"
+              width="1024"
+              height="1536"
+            />
+          </figure>
+
+          <div class="khanz-copy">
+            <div>
+              <span class="khanz-kicker">Self-hosted · private · open source</span>
+              <h3>Building a private AI and infrastructure ecosystem</h3>
+              <p class="intro">
+                Project Khanz documents how I transformed two repurposed laptops into a
+                working Ubuntu homelab. One machine operates as the infrastructure node,
+                while the second is dedicated to local AI. Together they run DNS filtering,
+                containerised applications, monitoring, remote access, security tooling and
+                private large-language-model services.
+              </p>
+
+              <div class="khanz-actions">
+                <a href="project-khanz.html">Read the case study →</a>
+                <a href="https://github.com/Khanz99" target="_blank" rel="noopener">View GitHub ↗</a>
+              </div>
+            </div>
+
+            <dl class="khanz-facts">
+              <div>
+                <dt>Node 01</dt>
+                <dd>Khanz Toshiba · infrastructure server</dd>
+              </div>
+              <div>
+                <dt>Node 02</dt>
+                <dd>Khanz AI Server · local AI node</dd>
+              </div>
+              <div>
+                <dt>Core stack</dt>
+                <dd>Ubuntu · Docker · Pi-hole · Ollama · Open WebUI</dd>
+              </div>
+              <div>
+                <dt>Focus</dt>
+                <dd>Linux · networking · security · automation · local AI</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>Explain → visualise → prove</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- ── INDEX OF WORK (signature) ── -->
     <section id="projects">
       <div class="wrap">
         <div class="sec-head">
           <h2>Index of work</h2>
-          <span class="count">07 entries</span>
+          <span class="count">08 entries</span>
         </div>
 
         <div class="index-layout">
@@ -499,11 +690,26 @@
           <div class="ledger" role="list">
 
             <button class="row" role="listitem" aria-current="true"
+              data-url="#project-khanz"
+              data-host="Project Khanz · on this portfolio"
+              data-desc="A visual engineering case study documenting a two-node Ubuntu homelab for infrastructure services, network security, automation and private local AI."
+              data-stack="Ubuntu,Docker,Pi-hole,Ollama,Open WebUI,Tailscale"
+              data-section="project-khanz"
+              data-nopreview="true">
+              <span class="row-num">01</span>
+              <span>
+                <span class="row-title">Project Khanz</span>
+                <span class="row-meta">Infrastructure case study · 2026</span>
+              </span>
+              <span class="row-status" data-status="live">Featured</span>
+            </button>
+
+            <button class="row" role="listitem"
               data-url="https://unclassified-ochre.vercel.app"
               data-host="unclassified-ochre.vercel.app"
               data-desc="EDIT ME — a one-line description of what Unclassified does. Newest build: a Next.js app with a React + TypeScript front end, deployed on Vercel."
               data-stack="Next.js,React,TypeScript,Vercel">
-              <span class="row-num">01</span>
+              <span class="row-num">02</span>
               <span>
                 <span class="row-title">Unclassified</span>
                 <span class="row-meta">Web app · 2026</span>
@@ -516,7 +722,7 @@
               data-host="chill-lounge-archive.vercel.app"
               data-desc="A podcast archive for a South African show — episode catalogue, embedded YouTube player, TikTok coverflow carousel, and a custom video modal. Built and deployed hand-coded."
               data-stack="HTML,CSS,JavaScript,GitHub Pages">
-              <span class="row-num">02</span>
+              <span class="row-num">03</span>
               <span>
                 <span class="row-title">Chill Lounge Archive</span>
                 <span class="row-meta">Media archive · 2025</span>
@@ -529,7 +735,7 @@
               data-host="comethru-five.vercel.app"
               data-desc="Real-time anonymous chat. Messages land instantly, no accounts, no friction — a study in getting a live socket app to feel effortless."
               data-stack="JavaScript,Real-time,Vercel">
-              <span class="row-num">03</span>
+              <span class="row-num">04</span>
               <span>
                 <span class="row-title">ComeThru Chat</span>
                 <span class="row-meta">Real-time app · 2025</span>
@@ -542,7 +748,7 @@
               data-host="khanz99.github.io/streetvault-marketplace"
               data-desc="A sneaker and streetwear marketplace interface — product carousels, cart interactions, and a responsive layout built to feel like a real storefront."
               data-stack="HTML,CSS,JavaScript,UI/UX">
-              <span class="row-num">04</span>
+              <span class="row-num">05</span>
               <span>
                 <span class="row-title">StreetVault Marketplace</span>
                 <span class="row-meta">E-commerce UI · 2025</span>
@@ -555,7 +761,7 @@
               data-host="omphiles-blog.netlify.app"
               data-desc="A cinematic editorial blog. The brief was atmosphere — typography, pacing and imagery doing the work rather than chrome."
               data-stack="HTML,CSS,JavaScript,Netlify">
-              <span class="row-num">05</span>
+              <span class="row-num">06</span>
               <span>
                 <span class="row-title">Omphile's Blog</span>
                 <span class="row-meta">Editorial · 2025</span>
@@ -569,7 +775,7 @@
               data-desc="A C++ warehouse simulation modelling order processing and truck dispatch with queues, stacks and vectors. Console-based, OOP throughout."
               data-stack="C++,OOP,STL,Data structures"
               data-nopreview="true">
-              <span class="row-num">06</span>
+              <span class="row-num">07</span>
               <span>
                 <span class="row-title">Warehouse Dispatch System</span>
                 <span class="row-meta">C++ simulation · 2025</span>
@@ -582,7 +788,7 @@
               data-host="khanz99.github.io/bluematic-memory-game"
               data-desc="An HTML5 memory card game built for an ad campaign — and built to actually be fun, which is the harder requirement."
               data-stack="HTML5,Canvas,JavaScript">
-              <span class="row-num">07</span>
+              <span class="row-num">08</span>
               <span>
                 <span class="row-title">BlueMatic Game</span>
                 <span class="row-meta">Browser game · 2024</span>
@@ -595,7 +801,7 @@
           <aside class="preview" aria-live="polite">
             <div class="preview-chrome">
               <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
-              <span class="u" id="pv-host">unclassified-ochre.vercel.app</span>
+              <span class="u" id="pv-host">Project Khanz · on this portfolio</span>
             </div>
 
             <div class="preview-stage" id="pv-stage">
@@ -687,7 +893,9 @@
         if (frame) { frame.remove(); frame = null; }
 
         if (row.dataset.nopreview) {
-          empty.textContent = 'Source only — view on GitHub';
+          empty.textContent = row.dataset.section
+            ? 'Featured case study — open on this page'
+            : 'Source only — view on GitHub';
           empty.style.display = 'grid';
           return;
         }
@@ -712,7 +920,12 @@
       }
 
       rows.forEach(row => {
-        row.addEventListener('click', () => render(row, true));
+        row.addEventListener('click', () => {
+          render(row, true);
+          if (row.dataset.section) {
+            document.getElementById(row.dataset.section)?.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
         row.addEventListener('mouseenter', () => {
           if (row.getAttribute('aria-current') !== 'true') render(row, true);
         });
